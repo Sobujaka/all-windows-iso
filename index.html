@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows ISO Downloader with Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .search-container {
+            margin-bottom: 25px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .search-input:focus {
+            border-color: #007bff;
+        }
+        .iso-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .iso-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .win-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .btn-download {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        .btn-blue {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-blue:hover {
+            background-color: #0056b3;
+        }
+        .btn-green {
+            background-color: #28a745 !important;
+            color: white !important;
+        }
+        .btn-green:hover {
+            background-color: #218838 !important;
+        }
+        .btn-waiting {
+            background-color: #dc3545;
+            color: white;
+        }
+        #no-result {
+            text-align: center;
+            color: #888;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Download Windows ISO Files</h2>
+
+    <!-- সার্চ বার -->
+    <div class="search-container">
+        <input type="text" id="searchBar" class="search-input" placeholder="উইন্ডোজের নাম লিখে সার্চ করুন... (যেমন: Windows 11)" onkeyup="filterFiles()">
+    </div>
+
+    <!-- ফাইল লিস্ট -->
+    <div id="fileList">
+        <div class="iso-item">
+            <span class="win-name">Windows 11 ISO</span>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-1', 'YOUR_GOOGLE_DRIVE_LINK_HERE_1')">Download</button>
+        </div>
+
+        <div class="iso-item">
+            <span class="win-name">Windows 10 ISO</span>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-2', 'YOUR_GOOGLE_DRIVE_LINK_HERE_2')">Download</button>
+        </div>
+
+        <div class="iso-item">
+            <span class="win-name">Windows 8 ISO</span>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-3', 'YOUR_GOOGLE_DRIVE_LINK_HERE_3')">Download</button>
+        </div>
+
+        <div class="iso-item">
+            <span class="win-name">Windows 7 ISO</span>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-4', 'YOUR_GOOGLE_DRIVE_LINK_HERE_4')">Download</button>
+        </div>
+    </div>
+
+    <div id="no-result">কোনো ফাইল খুঁজে পাওয়া যায়নি!</div>
+</div>
+
+<script>
+// সার্চ ফিল্টার
+function filterFiles() {
+    let input = document.getElementById('searchBar').value.toLowerCase();
+    let items = document.getElementsByClassName('iso-item');
+    let noResult = document.getElementById('no-result');
+    let hasMatch = false;
+
+    for (let i = 0; i < items.length; i++) {
+        let name = items[i].getElementsByClassName('win-name')[0].innerText.toLowerCase();
+        if (name.includes(input)) {
+            items[i].style.display = "flex";
+            hasMatch = true;
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+
+    if (hasMatch) {
+        noResult.style.display = "none";
+    } else {
+        noResult.style.display = "block";
+    }
+}
+
+// ডাউনলোড লক ও ৭ সেকেন্ড টাইমার ফাংশন
+let activeTimer = null;
+let currentButton = null;
+let timeSpentBackground = 0;
+
+function handleDownload(button, adLink, driveLink) {
+    if (button.classList.contains('btn-green')) {
+        window.open(driveLink, '_blank');
+        return;
+    }
+
+    if (button.classList.contains('btn-waiting')) {
+        return;
+    }
+
+    if (activeTimer) clearInterval(activeTimer);
+    
+    currentButton = button;
+    timeSpentBackground = 0;
+
+    window.open(adLink, '_blank');
+
+    button.classList.remove('btn-blue');
+    button.classList.add('btn-waiting');
+    button.innerText = "Checking... (Stay 7s on that page)";
+
+    activeTimer = setInterval(function() {
+        if (document.hidden) {
+            timeSpentBackground++;
+            // এখানে ৭ সেকেন্ড কন্ডিশন চেক করা হচ্ছে
+            if (timeSpentBackground >= 7) {
+                clearInterval(activeTimer);
+                button.classList.remove('btn-waiting');
+                button.classList.add('btn-green');
+                button.innerText = "Download Now";
+                activeTimer = null;
+            }
+        }
+    }, 1000);
+}
+
+window.addEventListener('focus', function() {
+    // ৭ সেকেন্ড হওয়ার আগে ফিরে আসলে রিসেট হবে
+    if (activeTimer && timeSpentBackground < 7) {
+        clearInterval(activeTimer);
+        activeTimer = null;
+        
+        if (currentButton) {
+            currentButton.classList.remove('btn-waiting');
+            currentButton.classList.add('btn-blue');
+            currentButton.innerText = "Download (Failed! Stay 7s)";
+            alert("আপনি ৭ সেকেন্ড অপেক্ষা করেননি! দয়া করে আবার চেষ্টা করুন এবং লিংকে ৭ সেকেন্ড থাকুন।");
+        }
+    }
+});
+</script>
+
+</body>
+</html>
