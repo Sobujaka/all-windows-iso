@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows ISO Downloader with Search</title>
+    <title>Universal Windows ISO Downloader</title>
     <style>
         * {
             margin: 0;
@@ -62,6 +62,16 @@
         .iso-item:hover {
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
+        .win-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .win-logo {
+            width: 24px;
+            height: 24px;
+            fill: #0078d4;
+        }
         .win-name {
             font-size: 18px;
             font-weight: 600;
@@ -79,30 +89,12 @@
             text-align: center;
             display: inline-block;
         }
-        .btn-blue {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-blue:hover {
-            background-color: #0056b3;
-        }
-        .btn-green {
-            background-color: #28a745 !important;
-            color: white !important;
-        }
-        .btn-green:hover {
-            background-color: #218838 !important;
-        }
-        .btn-waiting {
-            background-color: #dc3545;
-            color: white;
-        }
-        #no-result {
-            text-align: center;
-            color: #888;
-            margin-top: 15px;
-            display: none;
-        }
+        .btn-blue { background-color: #007bff; color: white; }
+        .btn-blue:hover { background-color: #0056b3; }
+        .btn-green { background-color: #28a745 !important; color: white !important; }
+        .btn-green:hover { background-color: #218838 !important; }
+        .btn-waiting { background-color: #dc3545; color: white; }
+        #no-result { text-align: center; color: #888; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -112,29 +104,45 @@
 
     <!-- সার্চ বার -->
     <div class="search-container">
-        <input type="text" id="searchBar" class="search-input" placeholder="উইন্ডোজের নাম লিখে সার্চ করুন... (যেমন: Windows 11)" onkeyup="filterFiles()">
+        <input type="text" id="searchBar" class="search-input" placeholder="উইন্ডোজের নাম লিখে সার্চ করুন..." onkeyup="filterFiles()">
     </div>
 
-    <!-- ফাইল লিস্ট -->
+    <!-- উইন্ডোজ ফাইল লিস্ট -->
     <div id="fileList">
+        <!-- Windows 11 -->
         <div class="iso-item">
-            <span class="win-name">Windows 11 ISO</span>
-            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-1', 'YOUR_GOOGLE_DRIVE_LINK_HERE_1')">Download</button>
+            <div class="win-info">
+                <svg class="win-logo" viewBox="0 0 24 24"><path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z"/></svg>
+                <span class="win-name">Windows 11 ISO</span>
+            </div>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-1', 'https://your-download-link-1.com')">Download</button>
         </div>
 
+        <!-- Windows 10 -->
         <div class="iso-item">
-            <span class="win-name">Windows 10 ISO</span>
-            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-2', 'YOUR_GOOGLE_DRIVE_LINK_HERE_2')">Download</button>
+            <div class="win-info">
+                <svg class="win-logo" viewBox="0 0 24 24"><path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z"/></svg>
+                <span class="win-name">Windows 10 ISO</span>
+            </div>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-2', 'https://your-download-link-2.com')">Download</button>
         </div>
 
+        <!-- Windows 8.1 -->
         <div class="iso-item">
-            <span class="win-name">Windows 8 ISO</span>
-            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-3', 'YOUR_GOOGLE_DRIVE_LINK_HERE_3')">Download</button>
+            <div class="win-info">
+                <svg class="win-logo" viewBox="0 0 24 24"><path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z"/></svg>
+                <span class="win-name">Windows 8.1 ISO</span>
+            </div>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-3', 'https://your-download-link-3.com')">Download</button>
         </div>
 
+        <!-- Windows 7 -->
         <div class="iso-item">
-            <span class="win-name">Windows 7 ISO</span>
-            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-4', 'YOUR_GOOGLE_DRIVE_LINK_HERE_4')">Download</button>
+            <div class="win-info">
+                <svg class="win-logo" viewBox="0 0 24 24"><path d="M0 0h11.4v11.4H0V0zm12.6 0H24v11.4H12.6V0zM0 12.6h11.4V24H0V12.6zm12.6 0H24V24H12.6V12.6z"/></svg>
+                <span class="win-name">Windows 7 ISO</span>
+            </div>
+            <button class="btn-download btn-blue" onclick="handleDownload(this, 'https://example.com/ad-link-4', 'https://your-download-link-4.com')">Download</button>
         </div>
     </div>
 
@@ -142,7 +150,7 @@
 </div>
 
 <script>
-// সার্চ ফিল্টার
+// সার্চ ফিল্টার ফাংশন
 function filterFiles() {
     let input = document.getElementById('searchBar').value.toLowerCase();
     let items = document.getElementsByClassName('iso-item');
@@ -159,21 +167,18 @@ function filterFiles() {
         }
     }
 
-    if (hasMatch) {
-        noResult.style.display = "none";
-    } else {
-        noResult.style.display = "block";
-    }
+    if (hasMatch) { noResult.style.display = "none"; } 
+    else { noResult.style.display = "block"; }
 }
 
-// ডাউনলোড লক ও ৭ সেকেন্ড টাইমার ফাংশন
+// ডাউনলোড লক ও ৭ সেকেন্ড ইউনিভার্সাল টাইমার ফাংশন
 let activeTimer = null;
 let currentButton = null;
 let timeSpentBackground = 0;
 
-function handleDownload(button, adLink, driveLink) {
+function handleDownload(button, adLink, anyDownloadLink) {
     if (button.classList.contains('btn-green')) {
-        window.open(driveLink, '_blank');
+        window.open(anyDownloadLink, '_blank');
         return;
     }
 
@@ -195,7 +200,6 @@ function handleDownload(button, adLink, driveLink) {
     activeTimer = setInterval(function() {
         if (document.hidden) {
             timeSpentBackground++;
-            // এখানে ৭ সেকেন্ড কন্ডিশন চেক করা হচ্ছে
             if (timeSpentBackground >= 7) {
                 clearInterval(activeTimer);
                 button.classList.remove('btn-waiting');
@@ -208,7 +212,6 @@ function handleDownload(button, adLink, driveLink) {
 }
 
 window.addEventListener('focus', function() {
-    // ৭ সেকেন্ড হওয়ার আগে ফিরে আসলে রিসেট হবে
     if (activeTimer && timeSpentBackground < 7) {
         clearInterval(activeTimer);
         activeTimer = null;
